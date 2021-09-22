@@ -7,16 +7,25 @@ import {BrowserRouter} from 'react-router-dom'
 import {Provider} from 'react-redux';
 import promiseMiddleware from 'redux-promise';
 import ReduxThunk from 'redux-thunk';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import Reducer from './_reducers';
+import { composeWithDevTools } from 'redux-devtools-extension';
+
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
 
 axios.defaults.withCredentials = true;
 
-const createStoreWithMiddleWare = applyMiddleware(promiseMiddleware, ReduxThunk)(createStore)
+const store = createStore(Reducer, composeWithDevTools(
+  applyMiddleware(promiseMiddleware, ReduxThunk)
+))
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={createStoreWithMiddleWare(Reducer)} >
+    <Provider store={store} >
     <BrowserRouter>
     <App />
     </BrowserRouter>
