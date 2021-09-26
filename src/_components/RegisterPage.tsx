@@ -1,7 +1,8 @@
 import './Register.css';
 import { SetStateAction, useState } from 'react';
-import { registerUser, overlapCheckEmail } from './_actions/user_action';
+import { registerUser, overlapCheckEmail } from '../_actions/user_action';
 import { useDispatch } from 'react-redux';
+import {withRouter} from 'react-router-dom';
 
 function RegisterPage(props: any) {
   const dispatch = useDispatch();
@@ -14,7 +15,8 @@ function RegisterPage(props: any) {
   const [School, setSchool]:[string,React.Dispatch<SetStateAction<string>>] = useState("")
   const [Grade, setGrade]:[string,React.Dispatch<SetStateAction<string>>] = useState("1")
   const [Option, setOption]:[string,React.Dispatch<SetStateAction<string>>] = useState("자연")
-  const [IsEmailOverlapChecked, setIsEmailOverlapChecked] = useState(false);
+  const [IsEmailOverlapChecked, setIsEmailOverlapChecked]:[boolean,React.Dispatch<SetStateAction<boolean>>] = useState(Boolean(false)
+  );
 
   const handleChangeEmail = (event) => {
     setEmail(event.currentTarget.value)
@@ -37,15 +39,15 @@ function RegisterPage(props: any) {
   }
 
   const handleChangeSchool = (event) => {
-    setSchool(event.currentTarget.value)
+    setSchool(event.currentTarget.value);
   }
 
   const handleChangeGrade = (event) => {
-    setGrade(event.currentTarget.value)
+    setGrade(event.currentTarget.value);
   }
 
   const handleChangeOption = (event) => {
-    setOption(event.currentTarget.value)
+    setOption(event.currentTarget.value);
   }
 
   const handleSubmit = (event) => {
@@ -76,7 +78,7 @@ function RegisterPage(props: any) {
   }
 
   const handleOverlapCheckEmail = (event) => {
-    let regEmail = /^([0-9a-zA-Z_\.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+    let regEmail = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
 
     event.preventDefault();
 
@@ -139,9 +141,9 @@ function RegisterPage(props: any) {
           </div>
           <div className="insert_sex">
             <div className="from_tit">성별 선택</div>
-            <div className="from_txt" onChange={handleChangeSex}>
-              <input type="radio" name="sex" defaultValue="남자" defaultChecked />남자
-              <input type="radio" name="sex" defaultValue="여자" />여자
+            <div className="from_txt" >
+              <input type="radio" name="sex" value="남자" defaultChecked onChange={handleChangeSex} />남자
+              <input type="radio" name="sex" value="여자" onChange={handleChangeSex} />여자
             </div>
           </div>
           <div className="insert_school">
@@ -152,17 +154,17 @@ function RegisterPage(props: any) {
           </div>
           <div className="insert_grade">
             <div className="from_tit">학년 입력</div>
-            <div className="from_txt" onChange={handleChangeGrade}>
-              <input type="radio" name="grade" defaultValue="1" defaultChecked />1
-              <input type="radio" name="grade" defaultValue="2" />2
-              <input type="radio" name="grade" defaultValue="3" />3
+            <div className="from_txt" >
+              <input type="radio" name="grade" value="1" defaultChecked onChange={handleChangeGrade} />1
+              <input type="radio" name="grade" value="2" onChange={handleChangeGrade} />2
+              <input type="radio" name="grade" value="3" onChange={handleChangeGrade} />3
             </div>
           </div>
           <div className="insert_option">
             <div className="from_tit">탐구 선택</div>
-            <div className="from_txt" onChange={handleChangeOption}>
-              <input type="radio" name="option" defaultValue="과학" defaultChecked />자연
-              <input type="radio" name="option" defaultValue="사회" />인문
+            <div className="from_txt" >
+              <input type="radio" name="option" value="자연" defaultChecked onChange={handleChangeOption} />자연
+              <input type="radio" name="option" value="인문" onChange={handleChangeOption} />인문
             </div>
           </div>
         </div>
@@ -176,4 +178,4 @@ function RegisterPage(props: any) {
   );
 }
 
-export default RegisterPage;
+export default withRouter(RegisterPage);

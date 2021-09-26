@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LOGIN_USER, REGISTER_USER, OVERLAP_CHECK_EMAIL } from './types';
+import { LOGIN_USER, REGISTER_USER, OVERLAP_CHECK_EMAIL, AUTH_USER } from './types';
 
 export async function loginUser(dataToSubmit) {
     const request = axios.post("/api/user/login", dataToSubmit).then((response) => response.data);
@@ -29,6 +29,14 @@ export async function overlapCheckEmail(dataToSubmit) {
     const request = axios.post("/api/user/overlapCheckEmail", dataToSubmit).then((response) => response.data);
     return {
         type: OVERLAP_CHECK_EMAIL,
+        payload: request
+    }
+}
+
+export async function authUser() {
+    const request = axios.get("api/user/auth").then((response) => response.data);
+    return {
+        type: AUTH_USER,
         payload: request
     }
 }

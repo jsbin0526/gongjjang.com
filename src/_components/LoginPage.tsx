@@ -1,7 +1,8 @@
 import { useState } from "react";
 import "./Stylesheet.css";
 import { useDispatch } from 'react-redux';
-import { loginUser } from './_actions/user_action';
+import { loginUser } from '../_actions/user_action';
+import {withRouter} from 'react-router-dom';
 
 function LoginPage(props: any) {
   const dispatch = useDispatch();
@@ -48,4 +49,4 @@ function LoginPage(props: any) {
     </div>
   );
 }
-export default LoginPage
+export default withRouter(LoginPage)
