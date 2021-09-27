@@ -1,15 +1,15 @@
-import axios from 'axios';
-import { LOGIN_USER, REGISTER_USER, OVERLAP_CHECK_EMAIL, AUTH_USER } from './types';
+import axios from 'axios'
+import { LOGIN_USER, REGISTER_USER, OVERLAP_CHECK_EMAIL, AUTH_USER, LOGOUT_USER } from './types'
 
-export async function loginUser(dataToSubmit) {
-    const request = axios.post("/api/user/login", dataToSubmit).then((response) => response.data);
-    return {
-        type: LOGIN_USER,
-        payload: request
-    }
+export async function loginUser (dataToSubmit) {
+  const request = axios.post('/api/user/login', dataToSubmit).then((response) => response.data)
+  return {
+    type: LOGIN_USER,
+    payload: request
+  }
 }
 
-export async function registerUser(dataToSubmit: {
+export async function registerUser (dataToSubmit: {
     email: string;
     password: string;
     name: string;
@@ -18,25 +18,33 @@ export async function registerUser(dataToSubmit: {
     grade: string;
     option: string;
 }) {
-    const request = axios.post("/api/user/register", dataToSubmit).then((response) => response.data);
-    return {
-        type: REGISTER_USER,
-        payload: request
-    }
+  const request = axios.post('/api/user/register', dataToSubmit).then((response) => response.data)
+  return {
+    type: REGISTER_USER,
+    payload: request
+  }
 }
 
-export async function overlapCheckEmail(dataToSubmit) {
-    const request = axios.post("/api/user/overlapCheckEmail", dataToSubmit).then((response) => response.data);
-    return {
-        type: OVERLAP_CHECK_EMAIL,
-        payload: request
-    }
+export async function overlapCheckEmail (dataToSubmit) {
+  const request = axios.post('/api/user/overlapCheckEmail', dataToSubmit).then((response) => response.data)
+  return {
+    type: OVERLAP_CHECK_EMAIL,
+    payload: request
+  }
 }
 
-export async function authUser() {
-    const request = axios.get("api/user/auth").then((response) => response.data);
-    return {
-        type: AUTH_USER,
-        payload: request
-    }
+export async function authUser () {
+  const request = axios.get('/api/user/auth').then((response) => response.data)
+  return {
+    type: AUTH_USER,
+    payload: request
+  }
+}
+
+export async function logoutUser () {
+  const request = axios.get('/api/user/logout').then((response) => response.data)
+  return {
+    type: LOGOUT_USER,
+    payload: request
+  }
 }

@@ -1,16 +1,18 @@
-import './Stylesheet.css';
+import './Stylesheet.css'
+// eslint-disable-next-line no-use-before-define
+import React from 'react'
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-} from 'react-router-dom';
+  Route
+} from 'react-router-dom'
 
-import LandingPage from './LandingPage';
-import LoginPage from './LoginPage';
-import RegisterPage from './RegisterPage';
-import Auth from '../hoc/auth';
+import LandingPage from './LandingPage'
+import LoginPage from './LoginPage'
+import RegisterPage from './RegisterPage'
+import Auth from '../hoc/auth'
 
-function App() {
+function App () {
   return (
     <Router>
       <div>
@@ -21,8 +23,7 @@ function App() {
         </Switch>
       </div>
       </Router>
-      );
+  )
 }
 
-      export default App;
-
+export default App

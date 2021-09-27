@@ -1,22 +1,23 @@
-import './Register.css';
-import { SetStateAction, useState } from 'react';
-import { registerUser, overlapCheckEmail } from '../_actions/user_action';
-import { useDispatch } from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import './Register.css'
+// eslint-disable-next-line no-use-before-define
+import React, { SetStateAction, useState } from 'react'
+import { registerUser, overlapCheckEmail } from '../_actions/user_action'
+import { useDispatch } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
-function RegisterPage(props: any) {
-  const dispatch = useDispatch();
+function RegisterPage (props: any) {
+  const dispatch = useDispatch()
 
-  const [Email, setEmail]:[string,React.Dispatch<SetStateAction<string>>] = useState("")
-  const [Password, setPassword]:[string,React.Dispatch<SetStateAction<string>>] = useState("")
-  const [ConfirmPassword, setConfirmPassword]:[string,React.Dispatch<SetStateAction<string>>] = useState("")
-  const [Name, setName]:[string,React.Dispatch<SetStateAction<string>>] = useState("")
-  const [Sex, setSex]:[string,React.Dispatch<SetStateAction<string>>] = useState("남자")
-  const [School, setSchool]:[string,React.Dispatch<SetStateAction<string>>] = useState("")
-  const [Grade, setGrade]:[string,React.Dispatch<SetStateAction<string>>] = useState("1")
-  const [Option, setOption]:[string,React.Dispatch<SetStateAction<string>>] = useState("자연")
-  const [IsEmailOverlapChecked, setIsEmailOverlapChecked]:[boolean,React.Dispatch<SetStateAction<boolean>>] = useState(Boolean(false)
-  );
+  const [Email, setEmail]:[string, React.Dispatch<SetStateAction<string>>] = useState('')
+  const [Password, setPassword]:[string, React.Dispatch<SetStateAction<string>>] = useState('')
+  const [ConfirmPassword, setConfirmPassword]:[string, React.Dispatch<SetStateAction<string>>] = useState('')
+  const [Name, setName]:[string, React.Dispatch<SetStateAction<string>>] = useState('')
+  const [Sex, setSex]:[string, React.Dispatch<SetStateAction<string>>] = useState('남자')
+  const [School, setSchool]:[string, React.Dispatch<SetStateAction<string>>] = useState('')
+  const [Grade, setGrade]:[string, React.Dispatch<SetStateAction<string>>] = useState('1')
+  const [Option, setOption]:[string, React.Dispatch<SetStateAction<string>>] = useState('자연')
+  const [IsEmailOverlapChecked, setIsEmailOverlapChecked]:[boolean, React.Dispatch<SetStateAction<boolean>>] = useState(Boolean(false)
+  )
 
   const handleChangeEmail = (event) => {
     setEmail(event.currentTarget.value)
@@ -39,25 +40,25 @@ function RegisterPage(props: any) {
   }
 
   const handleChangeSchool = (event) => {
-    setSchool(event.currentTarget.value);
+    setSchool(event.currentTarget.value)
   }
 
   const handleChangeGrade = (event) => {
-    setGrade(event.currentTarget.value);
+    setGrade(event.currentTarget.value)
   }
 
   const handleChangeOption = (event) => {
-    setOption(event.currentTarget.value);
+    setOption(event.currentTarget.value)
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     if (Password !== ConfirmPassword) {
-      return alert('비밀번호와 비밀번호 확인이 다릅니다.');
+      return alert('비밀번호와 비밀번호 확인이 다릅니다.')
     }
 
-    let body = {
+    const body = {
       email: Email,
       password: Password,
       name: Name,
@@ -65,41 +66,39 @@ function RegisterPage(props: any) {
       school: School,
       grade: Grade,
       option: Option
-    };
+    }
 
     dispatch(registerUser(body)).then(async (response) => {
       if ((await response.payload).registerSuccess) {
-        alert('회원가입 성공');
-        props.history.push('/login');
+        alert('회원가입 성공')
+        props.history.push('/login')
       } else {
-        alert('이메일이나 비밀번호가 올바르지 않습니다');
+        alert('이메일이나 비밀번호가 올바르지 않습니다')
       }
-    });
+    })
   }
 
   const handleOverlapCheckEmail = (event) => {
-    let regEmail = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/;
+    const regEmail = /^([0-9a-zA-Z_.-]+)@([0-9a-zA-Z_-]+)(\.[0-9a-zA-Z_-]+){1,2}$/
 
-    event.preventDefault();
+    event.preventDefault()
 
-
-    dispatch(overlapCheckEmail({email: Email})).then(async (response) => {
+    dispatch(overlapCheckEmail({ email: Email })).then(async (response) => {
       if ((await response.payload).overlapCheckEmail && regEmail.test(Email)) {
-        alert('해당 이메일은 사용할 수 있습니다');
-        setIsEmailOverlapChecked(true);
+        alert('해당 이메일은 사용할 수 있습니다')
+        setIsEmailOverlapChecked(true)
       } else {
-        alert('해당 이메일은 사용할 수 없습니다');
+        alert('해당 이메일은 사용할 수 없습니다')
       }
     })
   }
 
   const cancelEmailInput = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
-    setIsEmailOverlapChecked(false);
-    setEmail("");
+    setIsEmailOverlapChecked(false)
+    setEmail('')
   }
-
 
   return (<div>
     <form onSubmit={handleSubmit}>
@@ -118,7 +117,7 @@ function RegisterPage(props: any) {
             <div className="from_tit">이메일 입력</div>
             <div className="from_txt">
               <input type="email" name="email" maxLength={20} title="이메일 입력" placeholder="이메일를 입력해 주세요." onChange={handleChangeEmail} readOnly={IsEmailOverlapChecked} />
-              <button onClick={IsEmailOverlapChecked ? cancelEmailInput : handleOverlapCheckEmail} >{IsEmailOverlapChecked ? "취소" : "중복확인"}</button>
+              <button onClick={IsEmailOverlapChecked ? cancelEmailInput : handleOverlapCheckEmail} >{IsEmailOverlapChecked ? '취소' : '중복확인'}</button>
             </div>
           </div>
           <div className="insert_password">
@@ -175,7 +174,7 @@ function RegisterPage(props: any) {
     </form>
 
   </div>
-  );
+  )
 }
 
-export default withRouter(RegisterPage);
+export default withRouter(RegisterPage)

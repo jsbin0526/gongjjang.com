@@ -1,14 +1,13 @@
+// eslint-disable-next-line no-use-before-define
+import React, { SetStateAction, useState } from 'react'
 
-import {SetStateAction, useState} from 'react';
+function InformationPage (props: any) {
+  const info = props.userInfo
 
-function InformationPage(props: any) {
+  // eslint-disable-next-line no-unused-vars
+  const [PasswordChangeToggle, SetPasswordChangeToggle]:[boolean, React.Dispatch<SetStateAction<boolean>>] = useState(Boolean(false))
 
-    const info = props.userInfo
-
-    const [PasswordChangeToggle, SetPasswordChangeToggle]:[boolean, React.Dispatch<SetStateAction<boolean>>] = useState(Boolean(false));
-
-
-    return (
+  return (
     <div>
         <div>이메일: {info.email}</div>
         <div>이름: {info.name}</div>
@@ -18,7 +17,7 @@ function InformationPage(props: any) {
         <div>탐구: {info.option}</div>
         <div></div>
     </div>
-    )
+  )
 }
 
 export default InformationPage
