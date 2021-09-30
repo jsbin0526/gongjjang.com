@@ -117,6 +117,18 @@ app.get('/api/user/logout', auth, function (req, res) {
         });
     });
 });
+app.post('/api/user/passwordChange', function (req, res) {
+    var email = req.body.email;
+    var password = sha256(req.body.password + salt);
+    var sqlPasswordChange = 'UPDATE `user` SET `password` = ? WHERE `email` = ?';
+    db.query(sqlPasswordChange, [password, email], function (err, result) {
+        if (err)
+            return res.json({ loginSucces: false, err: err });
+        return res.status(200).json({
+            passwordChangeSuccess: true
+        });
+    });
+});
 app.listen(PORT, function () {
     console.log("Server On : http://localhost:" + PORT + "/");
 });

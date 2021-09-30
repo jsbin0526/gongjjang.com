@@ -1,11 +1,31 @@
 // eslint-disable-next-line no-use-before-define
-import React, { SetStateAction, useState } from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { withRouter } from 'react-router-dom'
+import { passwordChange } from '../_actions/user_action'
 
 function InformationPage (props: any) {
+  const dispatch = useDispatch()
   const info = props.userInfo
 
   // eslint-disable-next-line no-unused-vars
-  const [PasswordChangeToggle, SetPasswordChangeToggle]:[boolean, React.Dispatch<SetStateAction<boolean>>] = useState(Boolean(false))
+  const [Password, SetPassword] = useState('')
+
+  const handlePasswordChange = (event) => {
+    event.preventDefault()
+    const body = {
+      email: info.email,
+      password: Password
+    }
+
+    dispatch(passwordChange(body)).then(async (response) => {
+      if ((await response.payload).passwordChangeSuccess) {
+        alert('비밀번호가 변경되었습니다')
+      } else {
+        alert('비밀번호 변경에 실패했습니다')
+      }
+    })
+  }
 
   return (
     <div>
@@ -15,9 +35,15 @@ function InformationPage (props: any) {
         <div>학교: {info.school}</div>
         <div>학년: {info.grade}</div>
         <div>탐구: {info.option}</div>
-        <div></div>
+        <div>
+          <form>
+            <br/>
+            <div><a href="" onClick={handlePasswordChange}>비밀번호 변경하기</a></div>
+            <div><input type="password" id="passwordChange" /></div>
+          </form>
+        </div>
     </div>
   )
 }
 
-export default InformationPage
+export default withRouter(InformationPage)

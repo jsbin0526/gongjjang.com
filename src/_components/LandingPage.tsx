@@ -27,6 +27,14 @@ function LandingPage (props: any) {
     SetHomePageComponent(EmptyPage)
   }
 
+  const alertLogin = () => {
+    return (event: React.MouseEvent) => {
+      alert('로그인 후에 이용해주세요')
+      props.history.push('/login')
+      event.preventDefault()
+    }
+  }
+
   return (
             <div>
                 <div className="nav">
@@ -36,12 +44,12 @@ function LandingPage (props: any) {
                 </div>
                 <div className="menu">
                     <div className="menu_content">
-                        <div className="nav-item"><a href="/" onClick={(props.payload !== undefined ? props.payload.isAuth : false) ? handleHomePage(<InformationPage userInfo={props.payload}/>) : undefined}>내 정보</a></div>
+                        <div className="nav-item"><a href="/" onClick={(props.payload !== undefined ? props.payload.isAuth : false) ? handleHomePage(<InformationPage userInfo={props.payload}/>) : alertLogin()}>내 정보</a></div>
                         <div className="nav-item">다이어리</div>
                         <div className="nav-item">커뮤니티</div>
                         <div className="login-wrap">
-                            <a className="nav-item" href={(props.payload !== undefined ? !props.payload.isAuth : false) ? 'login' : '/'} onClick={(props.payload !== undefined ? props.payload.isAuth : false) ? handleLogout : undefined} >{(props.payload !== undefined ? props.payload.isAuth : false) ? '로그아웃' : '로그인'}</a>
-                            <a className="nav-item" href="register">회원가입</a>
+                            <a className="nav-item" href={(props.payload !== undefined ? !props.payload.isAuth : false) ? '/login' : '/'} onClick={(props.payload !== undefined ? props.payload.isAuth : false) ? handleLogout : undefined} >{(props.payload !== undefined ? props.payload.isAuth : false) ? '로그아웃' : '로그인'}</a>
+                            {(props.payload !== undefined ? props.payload.isAuth : false) ? <div></div> : <a className="nav-item " href="register">회원가입</a>}
                         </div>
                     </div>
                 </div>

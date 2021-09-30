@@ -127,6 +127,18 @@ app.get('/api/user/logout', auth, (req, res) => {
   })
 })
 
+app.post('/api/user/passwordChange', (req, res) => {
+  const email = req.body.email
+  const password = sha256(req.body.password + salt)
+  const sqlPasswordChange = 'UPDATE `user` SET `password` = ? WHERE `email` = ?'
+  db.query(sqlPasswordChange, [password, email], (err, result) => {
+    if (err) return res.json({ loginSucces: false, err })
+    return res.status(200).json({
+      passwordChangeSuccess: true
+    })
+  })
+})
+
 app.listen(PORT, () => {
   console.log(`Server On : http://localhost:${PORT}/`)
 })

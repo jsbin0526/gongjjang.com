@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { LOGIN_USER, REGISTER_USER, OVERLAP_CHECK_EMAIL, AUTH_USER, LOGOUT_USER } from './types'
+import { LOGIN_USER, REGISTER_USER, OVERLAP_CHECK_EMAIL, AUTH_USER, LOGOUT_USER, PASSWORD_CHANGE } from './types'
 
 export async function loginUser (dataToSubmit) {
   const request = axios.post('/api/user/login', dataToSubmit).then((response) => response.data)
@@ -45,6 +45,14 @@ export async function logoutUser () {
   const request = axios.get('/api/user/logout').then((response) => response.data)
   return {
     type: LOGOUT_USER,
+    payload: request
+  }
+}
+
+export async function passwordChange (dataToSubmit) {
+  const request = axios.post('/api/user/passwordChange', dataToSubmit).then((response) => response.data)
+  return {
+    type: PASSWORD_CHANGE,
     payload: request
   }
 }

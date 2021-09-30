@@ -16,8 +16,7 @@ function RegisterPage (props: any) {
   const [School, setSchool]:[string, React.Dispatch<SetStateAction<string>>] = useState('')
   const [Grade, setGrade]:[string, React.Dispatch<SetStateAction<string>>] = useState('1')
   const [Option, setOption]:[string, React.Dispatch<SetStateAction<string>>] = useState('자연')
-  const [IsEmailOverlapChecked, setIsEmailOverlapChecked]:[boolean, React.Dispatch<SetStateAction<boolean>>] = useState(Boolean(false)
-  )
+  const [IsEmailOverlapChecked, setIsEmailOverlapChecked]:[boolean, React.Dispatch<SetStateAction<boolean>>] = useState(Boolean(false))
 
   const handleChangeEmail = (event) => {
     setEmail(event.currentTarget.value)
