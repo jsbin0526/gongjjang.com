@@ -1,7 +1,10 @@
 import axios from 'axios'
 import { LOGIN_USER, REGISTER_USER, OVERLAP_CHECK_EMAIL, AUTH_USER, LOGOUT_USER, PASSWORD_CHANGE } from './types'
 
-export async function loginUser (dataToSubmit) {
+export async function loginUser (dataToSubmit : {
+  email: string,
+  password: string
+}) {
   const request = axios.post('/api/user/login', dataToSubmit).then((response) => response.data)
   return {
     type: LOGIN_USER,
@@ -25,7 +28,7 @@ export async function registerUser (dataToSubmit: {
   }
 }
 
-export async function overlapCheckEmail (dataToSubmit) {
+export async function overlapCheckEmail (dataToSubmit: { email: string }) {
   const request = axios.post('/api/user/overlapCheckEmail', dataToSubmit).then((response) => response.data)
   return {
     type: OVERLAP_CHECK_EMAIL,
@@ -49,7 +52,10 @@ export async function logoutUser () {
   }
 }
 
-export async function passwordChange (dataToSubmit) {
+export async function passwordChange (dataToSubmit: {
+  email: string,
+  password: string
+}) {
   const request = axios.post('/api/user/passwordChange', dataToSubmit).then((response) => response.data)
   return {
     type: PASSWORD_CHANGE,

@@ -11,8 +11,7 @@ function InformationPage (props: any) {
   // eslint-disable-next-line no-unused-vars
   const [Password, SetPassword] = useState('')
 
-  const handlePasswordChange = (event) => {
-    event.preventDefault()
+  const handlePasswordSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     const body = {
       email: info.email,
       password: Password
@@ -25,6 +24,12 @@ function InformationPage (props: any) {
         alert('비밀번호 변경에 실패했습니다')
       }
     })
+    event.preventDefault()
+  }
+
+  const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault()
+    SetPassword(event.currentTarget.value)
   }
 
   return (
@@ -36,10 +41,11 @@ function InformationPage (props: any) {
         <div>학년: {info.grade}</div>
         <div>탐구: {info.option}</div>
         <div>
-          <form>
+          <form onSubmit={handlePasswordSubmit}>
             <br/>
-            <div><a href="" onClick={handlePasswordChange}>비밀번호 변경하기</a></div>
-            <div><input type="password" id="passwordChange" /></div>
+            <input type="password" id="passwordChange" onChange={handleChangePassword}/>
+            <br/>
+            <button type="submit" value="Submit">비밀번호 변경</button>
           </form>
         </div>
     </div>

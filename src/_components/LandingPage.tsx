@@ -5,12 +5,14 @@ import { useDispatch } from 'react-redux'
 import { logoutUser } from '../_actions/user_action'
 import InformationPage from './InfomationPage'
 import EmptyPage from './EmptyPage'
+import DiaryPage from './DiaryPage'
 
 function LandingPage (props: any) {
   const dispatch = useDispatch()
   const [HomePageComponent, SetHomePageComponent] = useState(EmptyPage)
 
-  const handleHomePage = (component) => {
+  // eslint-disable-next-line no-undef
+  const handleHomePage = (component: React.SetStateAction<JSX.Element>) => {
     return (event: React.MouseEvent) => {
       SetHomePageComponent(component)
       event.preventDefault()
@@ -27,12 +29,10 @@ function LandingPage (props: any) {
     SetHomePageComponent(EmptyPage)
   }
 
-  const alertLogin = () => {
-    return (event: React.MouseEvent) => {
-      alert('로그인 후에 이용해주세요')
-      props.history.push('/login')
-      event.preventDefault()
-    }
+  const alertLogin = (event: React.MouseEvent) => {
+    alert('로그인 후에 이용해주세요')
+    props.history.push('/login')
+    event.preventDefault()
   }
 
   return (
@@ -44,8 +44,8 @@ function LandingPage (props: any) {
                 </div>
                 <div className="menu">
                     <div className="menu_content">
-                        <div className="nav-item"><a href="/" onClick={(props.payload !== undefined ? props.payload.isAuth : false) ? handleHomePage(<InformationPage userInfo={props.payload}/>) : alertLogin()}>내 정보</a></div>
-                        <div className="nav-item">다이어리</div>
+                        <div className="nav-item"><a href="/" onClick={(props.payload !== undefined ? props.payload.isAuth : false) ? handleHomePage(<InformationPage userInfo={props.payload}/>) : alertLogin}>내 정보</a></div>
+                        <div className="nav-item"><a href="/" onClick={(props.payload !== undefined ? props.payload.isAuth : false) ? handleHomePage(<DiaryPage userInfo={props.payload}/>) : alertLogin}>다이어리</a></div>
                         <div className="nav-item">커뮤니티</div>
                         <div className="login-wrap">
                             <a className="nav-item" href={(props.payload !== undefined ? !props.payload.isAuth : false) ? '/login' : '/'} onClick={(props.payload !== undefined ? props.payload.isAuth : false) ? handleLogout : undefined} >{(props.payload !== undefined ? props.payload.isAuth : false) ? '로그아웃' : '로그인'}</a>

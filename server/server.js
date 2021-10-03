@@ -1,3 +1,7 @@
+/* eslint-disable */
+
+"use strict";
+exports.__esModule = true;
 var express = require('express');
 var app = express();
 var PORT = 4000;
@@ -6,6 +10,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var sha256 = require('sha256');
 var jwt = require('jsonwebtoken');
+var path = require('path');
 var auth = function (req, res, next) {
     var token = req.cookies.x_auth;
     var sqlTokenCheck = 'SELECT `email` `token` FROM `user` WHERE `email` = ? AND `token` = ?';
@@ -23,14 +28,15 @@ var auth = function (req, res, next) {
         });
     });
 };
-require('dotenv').config();
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 var salt = process.env.SALT;
 var mysql = require('mysql');
 var db = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    password: 'jsb0526',
-    database: 'mydb' // db명
+    host: process.env.HOST,
+    user: process.env.USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DATABASE,
+    dateStrings: 'date'
 });
 app.use(cors());
 app.use(express.json());
@@ -123,9 +129,45 @@ app.post('/api/user/passwordChange', function (req, res) {
     var sqlPasswordChange = 'UPDATE `user` SET `password` = ? WHERE `email` = ?';
     db.query(sqlPasswordChange, [password, email], function (err, result) {
         if (err)
-            return res.json({ loginSucces: false, err: err });
+            return res.json({ passwordChangeSuccess: false, err: err });
         return res.status(200).json({
             passwordChangeSuccess: true
+        });
+    });
+});
+app.get('/api/diary/fetch', auth, function (req, res) {
+    var email = req.user.email;
+    var sqlFetchDiary = 'SELECT * FROM `diary` WHERE `author` = ?';
+    db.query(sqlFetchDiary, email, function (err, result) {
+        if (err)
+            return res.json({ fetchResults: null, err: err });
+        return res.status(200).json({
+            fetchResults: result.map(function (x) { return JSON.parse(JSON.stringify(x)); })
+        });
+    });
+});
+app.post('/api/diary/write', function (req, res) {
+    var title = req.body.title;
+    var body = req.body.body;
+    var author = req.body.author;
+    var date = req.body.date;
+    var sqlWriteDiary = 'INSERT INTO `diary` (`title`, `body`, `author`, `date`) VALUES (?, ?, ?, ?)';
+    db.query(sqlWriteDiary, [title, body, author, date], function (err, result) {
+        if (err)
+            return res.json({ writeSuccess: false, err: err });
+        return res.status(200).json({
+            writeSuccess: true
+        });
+    });
+});
+app.post('/api/diary/delete', function (req, res) {
+    var id = req.body.id;
+    var sqlDeleteDiary = 'DELETE FROM `diary` WHERE `id` = ?';
+    db.query(sqlDeleteDiary, id, function (err, result) {
+        if (err)
+            return res.json({ deleteSuccess: false, err: err });
+        return res.status(200).json({
+            deleteSuccess: true
         });
     });
 });

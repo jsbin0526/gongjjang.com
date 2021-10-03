@@ -10,15 +10,15 @@ function LoginPage (props: any) {
   const [Email, setEmail] = useState('')
   const [Password, setPassword] = useState('')
 
-  const handleChangeEmail = (event) => {
+  const handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.currentTarget.value)
   }
 
-  const handleChangePassword = (event) => {
+  const handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.currentTarget.value)
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.ChangeEvent<HTMLInputElement>) => {
     event.preventDefault()
     const body = {
       email: Email,
@@ -43,9 +43,10 @@ function LoginPage (props: any) {
       height: '100vh'
     }} onSubmit={handleSubmit}>
       <form style={{ display: 'flex', flexDirection: 'column' }}>
-        <label>ID</label>
+        <label>아이디</label>
         <input type="email" name="email" onChange={handleChangeEmail} />
-        <label>PASSWORD</label>
+        <br/>
+        <label>비밀번호</label>
         <input type="password" name="password" onChange={handleChangePassword} />
         <br />
         <button type="submit">로그인</button>

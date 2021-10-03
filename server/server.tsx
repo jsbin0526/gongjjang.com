@@ -6,6 +6,7 @@ const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const sha256 = require('sha256')
 const jwt = require('jsonwebtoken')
+const path = require('path')
 
 const auth = (req, res, next) => {
   const token = req.cookies.x_auth
@@ -23,16 +24,17 @@ const auth = (req, res, next) => {
   })
 }
 
-require('dotenv').config()
+require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const salt = process.env.SALT
 
 const mysql = require('mysql')
 const db = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: 'jsb0526', // 패스워드
-  database: 'mydb' // db명
+  host: process.env.HOST,
+  user: process.env.USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DATABASE,
+  dateStrings: 'date'
 })
 
 app.use(cors())
@@ -132,9 +134,45 @@ app.post('/api/user/passwordChange', (req, res) => {
   const password = sha256(req.body.password + salt)
   const sqlPasswordChange = 'UPDATE `user` SET `password` = ? WHERE `email` = ?'
   db.query(sqlPasswordChange, [password, email], (err, result) => {
-    if (err) return res.json({ loginSucces: false, err })
+    if (err) return res.json({ passwordChangeSuccess: false, err })
     return res.status(200).json({
       passwordChangeSuccess: true
+    })
+  })
+})
+
+app.get('/api/diary/fetch', auth, (req, res) => {
+  const email = req.user.email
+  const sqlFetchDiary = 'SELECT * FROM `diary` WHERE `author` = ?'
+  db.query(sqlFetchDiary, email, (err, result) => {
+    if (err) return res.json({ fetchResults: null, err })
+    return res.status(200).json({
+      fetchResults: result.map(x => JSON.parse(JSON.stringify(x)))
+    })
+  })
+})
+
+app.post('/api/diary/write', (req, res) => {
+  const title = req.body.title
+  const body = req.body.body
+  const author = req.body.author
+  const date = req.body.date
+  const sqlWriteDiary = 'INSERT INTO `diary` (`title`, `body`, `author`, `date`) VALUES (?, ?, ?, ?)'
+  db.query(sqlWriteDiary, [title, body, author, date], (err, result) => {
+    if (err) return res.json({ writeSuccess: false, err })
+    return res.status(200).json({
+      writeSuccess: true
+    })
+  })
+})
+
+app.post('/api/diary/delete', (req, res) => {
+  const id = req.body.id
+  const sqlDeleteDiary = 'DELETE FROM `diary` WHERE `id` = ?'
+  db.query(sqlDeleteDiary, id, (err, result) => {
+    if (err) return res.json({ deleteSuccess: false, err })
+    return res.status(200).json({
+      deleteSuccess: true
     })
   })
 })
