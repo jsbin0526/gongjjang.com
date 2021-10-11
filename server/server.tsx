@@ -177,6 +177,43 @@ app.post('/api/diary/delete', (req, res) => {
   })
 })
 
+app.post('/api/article/fetch', (req, res) => {
+  const query = req.body.query
+  const sqlQueryArticle = query !== '' ? 'SELECT * FROM `article` WHERE MATCH (title, body) AGAINST (? IN NATURAL LANGUAGE MODE)' : 'SELECT * FROM `article`'
+  db.query(sqlQueryArticle, query, (err, result) => {
+    if (err) return res.json({ fetchResults: null, err })
+    return res.status(200).json({
+      fetchResults: result.map((x) => JSON.parse(JSON.stringify(x)))
+    })
+  })
+})
+
+app.post('/api/article/write', auth, (req, res) => {
+  const title = req.body.title
+  const body = req.body.body
+  const author = req.user.email
+  const name = req.user.name
+  const date = req.body.date
+  const sqlWriteArticle = 'INSERT INTO `article` (`title`, `body`, `author`, `name`, `date`, `likes`, `views`) VALUES (?, ?, ?, ?, ?, 0, 0)'
+  db.query(sqlWriteArticle, [title, body, author, name, date], (err, result) => {
+    if (err) return res.json({ writeSuccess: false, err })
+    return res.status(200).json({
+      writeSuccess: true
+    })
+  })
+})
+
+app.post('/api/article/view', (req, res) => {
+  const id = req.body.id
+  const sqlViewArticle = 'SELECT * FROM `article` WHERE `id` = ?'
+  db.query(sqlViewArticle, id, (err, result) => {
+    if (err) return res.json({ ViewResults: null, err })
+    return res.status(200).json({
+      viewResults: JSON.parse(JSON.stringify(result[0]))
+    })
+  })
+})
+
 app.listen(PORT, () => {
   console.log(`Server On : http://localhost:${PORT}/`)
 })

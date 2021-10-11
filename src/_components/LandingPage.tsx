@@ -6,6 +6,7 @@ import { logoutUser } from '../_actions/user_action'
 import InformationPage from './InfomationPage'
 import EmptyPage from './EmptyPage'
 import DiaryPage from './DiaryPage'
+import CommunityPage from './CommunityPage'
 
 function LandingPage (props: any) {
   const dispatch = useDispatch()
@@ -46,7 +47,7 @@ function LandingPage (props: any) {
                     <div className="menu_content">
                         <div className="nav-item"><a href="/" onClick={(props.payload !== undefined ? props.payload.isAuth : false) ? handleHomePage(<InformationPage userInfo={props.payload}/>) : alertLogin}>내 정보</a></div>
                         <div className="nav-item"><a href="/" onClick={(props.payload !== undefined ? props.payload.isAuth : false) ? handleHomePage(<DiaryPage userInfo={props.payload}/>) : alertLogin}>다이어리</a></div>
-                        <div className="nav-item">커뮤니티</div>
+                        <div className="nav-item"><a href="/" onClick={(props.payload !== undefined ? props.payload.isAuth : false) ? handleHomePage(<CommunityPage userInfo={props.payload}/>) : alertLogin}>커뮤니티</a></div>
                         <div className="login-wrap">
                             <a className="nav-item" href={(props.payload !== undefined ? !props.payload.isAuth : false) ? '/login' : '/'} onClick={(props.payload !== undefined ? props.payload.isAuth : false) ? handleLogout : undefined} >{(props.payload !== undefined ? props.payload.isAuth : false) ? '로그아웃' : '로그인'}</a>
                             {(props.payload !== undefined ? props.payload.isAuth : false) ? <div></div> : <a className="nav-item " href="register">회원가입</a>}

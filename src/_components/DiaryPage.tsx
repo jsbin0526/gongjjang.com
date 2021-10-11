@@ -68,7 +68,6 @@ function DiaryPage (props: any) {
   }
 
   const handleDelete = (id: string, event: React.MouseEvent<HTMLImageElement>) => {
-    console.log(id)
     const body = {
       id: id
     }

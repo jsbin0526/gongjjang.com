@@ -1,7 +1,3 @@
-/* eslint-disable */
-
-"use strict";
-exports.__esModule = true;
 var express = require('express');
 var app = express();
 var PORT = 4000;
@@ -168,6 +164,43 @@ app.post('/api/diary/delete', function (req, res) {
             return res.json({ deleteSuccess: false, err: err });
         return res.status(200).json({
             deleteSuccess: true
+        });
+    });
+});
+app.post('/api/article/fetch', function (req, res) {
+    var query = req.body.query;
+    var sqlQueryArticle = query !== '' ? 'SELECT * FROM `article` WHERE MATCH (title, body) AGAINST (? IN NATURAL LANGUAGE MODE)' : 'SELECT * FROM `article`';
+    db.query(sqlQueryArticle, query, function (err, result) {
+        if (err)
+            return res.json({ fetchResults: null, err: err });
+        return res.status(200).json({
+            fetchResults: result.map(function (x) { return JSON.parse(JSON.stringify(x)); })
+        });
+    });
+});
+app.post('/api/article/write', auth, function (req, res) {
+    var title = req.body.title;
+    var body = req.body.body;
+    var author = req.user.email;
+    var name = req.user.name;
+    var date = req.body.date;
+    var sqlWriteArticle = 'INSERT INTO `article` (`title`, `body`, `author`, `name`, `date`, `likes`, `views`) VALUES (?, ?, ?, ?, ?, 0, 0)';
+    db.query(sqlWriteArticle, [title, body, author, name, date], function (err, result) {
+        if (err)
+            return res.json({ writeSuccess: false, err: err });
+        return res.status(200).json({
+            writeSuccess: true
+        });
+    });
+});
+app.post('/api/article/view', function (req, res) {
+    var id = req.body.id;
+    var sqlViewArticle = 'SELECT * FROM `article` WHERE `id` = ?';
+    db.query(sqlViewArticle, id, function (err, result) {
+        if (err)
+            return res.json({ ViewResults: null, err: err });
+        return res.status(200).json({
+            viewResults: JSON.parse(JSON.stringify(result[0]))
         });
     });
 });

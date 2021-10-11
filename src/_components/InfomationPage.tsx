@@ -1,7 +1,6 @@
 // eslint-disable-next-line no-use-before-define
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { withRouter } from 'react-router-dom'
 import { passwordChange } from '../_actions/user_action'
 
 function InformationPage (props: any) {
@@ -52,4 +51,4 @@ function InformationPage (props: any) {
   )
 }
 
-export default withRouter(InformationPage)
+export default InformationPage
