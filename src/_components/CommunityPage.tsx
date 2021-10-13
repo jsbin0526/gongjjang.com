@@ -152,7 +152,7 @@ function CommunityPage (props: any) {
       dispatch(viewArticle({ id: id })).then(async (response) => {
         SetArticle((await response.payload).viewResults)
       })
-    })
+    }, [])
 
     return (
       <div>
@@ -160,7 +160,7 @@ function CommunityPage (props: any) {
          <div>{Article.title}</div>
          <div>{Article.name}</div>
          <div>{Article.date}</div>
-         <div>{Article.views}</div>
+         <div>{Article.views + 1}</div>
          <div>{Article.likes}</div>
         </header>
       </div>

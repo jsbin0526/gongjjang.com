@@ -206,10 +206,13 @@ app.post('/api/article/write', auth, (req, res) => {
 app.post('/api/article/view', (req, res) => {
   const id = req.body.id
   const sqlViewArticle = 'SELECT * FROM `article` WHERE `id` = ?'
+  const sqlIncreaseViews = 'UPDATE `article` SET views = views + 1 WHERE `id` = ?'
   db.query(sqlViewArticle, id, (err, result) => {
     if (err) return res.json({ ViewResults: null, err })
-    return res.status(200).json({
-      viewResults: JSON.parse(JSON.stringify(result[0]))
+    db.query(sqlIncreaseViews, id, (err2, result2) => {
+      return res.status(200).json({
+        viewResults: JSON.parse(JSON.stringify(result[0]))
+      })
     })
   })
 })
