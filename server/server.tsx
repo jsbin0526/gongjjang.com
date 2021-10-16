@@ -26,6 +26,11 @@ const auth = (req, res, next) => {
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const salt = process.env.SALT
+const corsOptions = {
+  origin: '*',
+  credentials: true,
+  optionSuccessStatus: 200
+}
 
 const mysql = require('mysql')
 const db = mysql.createPool({
@@ -36,7 +41,7 @@ const db = mysql.createPool({
   dateStrings: 'date'
 })
 
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())

@@ -25,6 +25,11 @@ var auth = function (req, res, next) {
 };
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 var salt = process.env.SALT;
+var corsOptions = {
+    origin: '*',
+    credentials: true,
+    optionSuccessStatus: 200
+};
 var mysql = require('mysql');
 var db = mysql.createPool({
     host: process.env.HOST,
@@ -33,7 +38,7 @@ var db = mysql.createPool({
     database: process.env.DATABASE,
     dateStrings: 'date'
 });
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());

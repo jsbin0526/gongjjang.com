@@ -1,0 +1,8 @@
+name: gh-pages deploy
+on:
+  push:
+    branches:
+      - gh-pages
+
+env:
+  REACT_APP_URL: ${{ secrets.REACT_APP_URL }}
