@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/gongjjang.com/static/css/main.1f9cc27e.chunk.css",
+    "main.js": "/gongjjang.com/static/js/main.5a2c9b6c.chunk.js",
+    "main.js.map": "/gongjjang.com/static/js/main.5a2c9b6c.chunk.js.map",
+    "runtime-main.js": "/gongjjang.com/static/js/runtime-main.bd30ca3d.js",
+    "runtime-main.js.map": "/gongjjang.com/static/js/runtime-main.bd30ca3d.js.map",
+    "static/js/2.fb5ddb30.chunk.js": "/gongjjang.com/static/js/2.fb5ddb30.chunk.js",
+    "static/js/2.fb5ddb30.chunk.js.map": "/gongjjang.com/static/js/2.fb5ddb30.chunk.js.map",
+    "static/js/3.6449d131.chunk.js": "/gongjjang.com/static/js/3.6449d131.chunk.js",
+    "static/js/3.6449d131.chunk.js.map": "/gongjjang.com/static/js/3.6449d131.chunk.js.map",
+    "index.html": "/gongjjang.com/index.html",
+    "static/css/main.1f9cc27e.chunk.css.map": "/gongjjang.com/static/css/main.1f9cc27e.chunk.css.map",
+    "static/js/2.fb5ddb30.chunk.js.LICENSE.txt": "/gongjjang.com/static/js/2.fb5ddb30.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.bd30ca3d.js",
+    "static/js/2.fb5ddb30.chunk.js",
+    "static/css/main.1f9cc27e.chunk.css",
+    "static/js/main.5a2c9b6c.chunk.js"
+  ]
+}
