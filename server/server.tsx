@@ -58,11 +58,24 @@ app.post('/api/user/login', (req, res) => {
   const token = jwt.sign({ email: email }, '' + process.env.JWT_SECRET)
   const sqlLoginCheck = 'SELECT `email` `password` FROM `user` WHERE `email` = ? AND `password` = ?'
   const sqlInsertToken = 'UPDATE `user` SET `token` = ? WHERE `email` = ?'
-  db.query(sqlLoginCheck, [email, password], (err, result) => {
-    if (Object.keys(result).length === 1) {
+
+  const queryLoginCheck = (callback) => {
+    db.query(sqlLoginCheck, [email, password], (err, result) => {
+      if (err) callback(err, false)
+      else callback(null, Object.keys(result).length)
+    })
+  }
+  const queryInsertToken = (callback) => {
+    db.query(sqlInsertToken, [token, email], (err, result) => {
+      if (err) callback(err)
+      else callback(null)
+    })
+  }
+  queryLoginCheck((err, result) => {
+    if (result === 1) {
       if (err) return res.json({ loginSuccess: false, err })
-      db.query(sqlInsertToken, [token, email], (err2, result2) => {
-        if (err2) return res.json({ insertTokenSucces: false, err2 })
+      queryInsertToken((err) => {
+        if (err) return res.json({ insertTokenSucces: false, err })
         return res.cookie('x_auth', token, { httpOnly: true }).status(200).json({ loginSuccess: true, email: email })
       })
     } else {
@@ -227,8 +240,5 @@ app.post('/api/article/view', (req, res) => {
 })
 
 app.listen(PORT, () => {
-  console.log(`Server On : http://localhost:${PORT}/` + ' ' + process.env)
-  Object.entries(process.env).map(
-    ([k, v], i) => console.log(v)
-  )
+  console.log(`Server On : http://localhost:${PORT}/`)
 })

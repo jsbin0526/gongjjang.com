@@ -53,13 +53,29 @@ app.post('/api/user/login', function (req, res) {
     var token = jwt.sign({ email: email }, '' + process.env.JWT_SECRET);
     var sqlLoginCheck = 'SELECT `email` `password` FROM `user` WHERE `email` = ? AND `password` = ?';
     var sqlInsertToken = 'UPDATE `user` SET `token` = ? WHERE `email` = ?';
-    db.query(sqlLoginCheck, [email, password], function (err, result) {
-        if (Object.keys(result).length === 1) {
+    var queryLoginCheck = function (callback) {
+        db.query(sqlLoginCheck, [email, password], function (err, result) {
+            if (err)
+                callback(err, false);
+            else
+                callback(null, Object.keys(result).length);
+        });
+    };
+    var queryInsertToken = function (callback) {
+        db.query(sqlInsertToken, [token, email], function (err, result) {
+            if (err)
+                callback(err);
+            else
+                callback(null);
+        });
+    };
+    queryLoginCheck(function (err, result) {
+        if (result === 1) {
             if (err)
                 return res.json({ loginSuccess: false, err: err });
-            db.query(sqlInsertToken, [token, email], function (err2, result2) {
-                if (err2)
-                    return res.json({ insertTokenSucces: false, err2: err2 });
+            queryInsertToken(function (err) {
+                if (err)
+                    return res.json({ insertTokenSucces: false, err: err });
                 return res.cookie('x_auth', token, { httpOnly: true }).status(200).json({ loginSuccess: true, email: email });
             });
         }
@@ -216,9 +232,5 @@ app.post('/api/article/view', function (req, res) {
     });
 });
 app.listen(PORT, function () {
-    console.log("Server On : http://localhost:" + PORT + "/" + ' ' + process.env);
-    Object.entries(process.env).map(function (_a, i) {
-        var k = _a[0], v = _a[1];
-        return console.log(v);
-    });
+    console.log("Server On : http://localhost:" + PORT + "/");
 });
