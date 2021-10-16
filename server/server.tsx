@@ -124,7 +124,7 @@ app.post('/api/user/overlapCheckEmail', (req, res) => {
   const queryOverlapCheck = (callback) => {
     db.query(sqlOverlapCheck, email, (err, result) => {
       if (err) callback(err, null)
-      else callback(Object.keys(result).length)
+      else callback(null, Object.keys(result).length)
     })
   }
   queryOverlapCheck((err, result) => {

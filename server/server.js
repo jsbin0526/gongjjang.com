@@ -119,7 +119,7 @@ app.post('/api/user/overlapCheckEmail', function (req, res) {
             if (err)
                 callback(err, null);
             else
-                callback(Object.keys(result).length);
+                callback(null, Object.keys(result).length);
         });
     };
     queryOverlapCheck(function (err, result) {
