@@ -123,6 +123,7 @@ app.post('/api/user/overlapCheckEmail', function (req, res) {
         });
     };
     queryOverlapCheck(function (err, result) {
+        console.log(result);
         if (err)
             return res.json({ overlapCheckEmail: false, err: err });
         if (result !== 0)
