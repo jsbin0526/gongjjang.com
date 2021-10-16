@@ -29,6 +29,9 @@ var salt = process.env.SALT;
 var corsOptions = {
     origin: 'https://jsbin0526.github.io',
     credentials: true,
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+    maxAge: 86400,
     optionSuccessStatus: 200
 };
 var mysql = require('mysql');

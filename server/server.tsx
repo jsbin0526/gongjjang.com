@@ -31,6 +31,9 @@ const salt = process.env.SALT
 const corsOptions = {
   origin: 'https://jsbin0526.github.io',
   credentials: true,
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+  maxAge: 86400,
   optionSuccessStatus: 200
 }
 
