@@ -29,7 +29,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const salt = process.env.SALT
 const corsOptions = {
-  origin: 'https://jsbin0526.github.io/',
+  origin: 'https://jsbin0526.github.io',
   credentials: true,
   optionSuccessStatus: 200
 }
