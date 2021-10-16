@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var sha256 = require('sha256');
 var jwt = require('jsonwebtoken');
 var path = require('path');
+var PORT = process.env.PORT || 4000;
 var auth = function (req, res, next) {
     var token = req.cookies.x_auth;
     var sqlTokenCheck = 'SELECT `email` `token` FROM `user` WHERE `email` = ? AND `token` = ?';
@@ -210,4 +211,7 @@ app.post('/api/article/view', function (req, res) {
             });
         });
     });
+});
+app.listen(PORT, function () {
+    console.log("Server On : http://localhost:" + PORT + "/");
 });

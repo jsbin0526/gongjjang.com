@@ -7,6 +7,8 @@ const sha256 = require('sha256')
 const jwt = require('jsonwebtoken')
 const path = require('path')
 
+const PORT = process.env.PORT || 4000 
+
 const auth = (req, res, next) => {
   const token = req.cookies.x_auth
   const sqlTokenCheck = 'SELECT `email` `token` FROM `user` WHERE `email` = ? AND `token` = ?'
@@ -219,4 +221,8 @@ app.post('/api/article/view', (req, res) => {
       })
     })
   })
+})
+
+app.listen(PORT, () => {
+  console.log(`Server On : http://localhost:${PORT}/`)
 })
