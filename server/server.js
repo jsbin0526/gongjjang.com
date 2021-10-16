@@ -213,5 +213,5 @@ app.post('/api/article/view', function (req, res) {
     });
 });
 app.listen(PORT, function () {
-    console.log("Server On : http://localhost:" + PORT + "/");
+    console.log("Server On : http://localhost:" + PORT + "/" + ' ' + process.env);
 });
