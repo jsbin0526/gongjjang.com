@@ -225,4 +225,7 @@ app.post('/api/article/view', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Server On : http://localhost:${PORT}/` + ' ' + process.env)
+  Object.entries(process.env).map(
+    ([k, v], i) => console.log(v)
+  )
 })

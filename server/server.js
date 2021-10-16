@@ -214,4 +214,8 @@ app.post('/api/article/view', function (req, res) {
 });
 app.listen(PORT, function () {
     console.log("Server On : http://localhost:" + PORT + "/" + ' ' + process.env);
+    Object.entries(process.env).map(function (_a, i) {
+        var k = _a[0], v = _a[1];
+        return console.log(v);
+    });
 });
