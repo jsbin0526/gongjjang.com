@@ -2,7 +2,7 @@ import './Stylesheet.css'
 // eslint-disable-next-line no-use-before-define
 import React from 'react'
 import {
-  BrowserRouter as Router,
+  HashRouter as Router,
   Switch,
   Route
 } from 'react-router-dom'
@@ -14,14 +14,12 @@ import Auth from '../hoc/auth'
 
 function App () {
   return (
-    <Router>
-      <div>
+    <Router basename={process.env.PUBLIC_URL}>
         <Switch>
           <Route exact path="/" component={Auth(LandingPage, null)}/>
           <Route exact path="/login" component={Auth(LoginPage, false)}/>
           <Route exact path="/register" component={Auth(RegisterPage, false)}/>
         </Switch>
-      </div>
       </Router>
   )
 }
