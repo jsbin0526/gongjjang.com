@@ -95,7 +95,15 @@ app.post('/api/user/register', function (req, res) {
     var grade = req.body.grade;
     var option = req.body.option;
     var sqlRegister = 'INSERT INTO `user` (`email`, `password`, `token`, `name`, `sex`, `school`, `grade`, `option`) VALUES (?, ?, "", ?, ?, ?, ?, ?)';
-    db.query(sqlRegister, [email, password, name, sex, school, grade, option], function (err, result) {
+    var queryRegister = function (callback) {
+        db.query(sqlRegister, [email, password, name, sex, school, grade, option], function (err) {
+            if (err)
+                callback(err);
+            else
+                callback(null);
+        });
+    };
+    queryRegister(function (err) {
         if (err)
             return res.json({ registerSuccess: false, err: err });
         return res.status(200).json({
@@ -106,19 +114,22 @@ app.post('/api/user/register', function (req, res) {
 app.post('/api/user/overlapCheckEmail', function (req, res) {
     var email = req.body.email;
     var sqlOverlapCheck = 'SELECT `email` FROM `user` WHERE `email` = ?';
-    db.query(sqlOverlapCheck, email, function (err, result) {
-        if (Object.keys(result).length === 0) {
+    var queryOverlapCheck = function (callback) {
+        db.query(sqlOverlapCheck, email, function (err, result) {
             if (err)
-                return res.json({ overlapCheckEmail: false, err: err });
-            return res.status(200).json({
-                overlapCheckEmail: true
-            });
-        }
-        else {
-            return res.status(200).json({
-                overlapCheckEmail: false
-            });
-        }
+                callback(err, null);
+            else
+                callback(Object.keys(result).length);
+        });
+    };
+    queryOverlapCheck(function (err, result) {
+        if (err)
+            return res.json({ overlapCheckEmail: false, err: err });
+        if (result !== 0)
+            return res.status(200).json({ overlapCheckEmail: false });
+        return res.status(200).json({
+            overlapCheckEmail: true
+        });
     });
 });
 app.get('/api/user/auth', auth, function (req, res) {

@@ -102,9 +102,15 @@ app.post('/api/user/register', (req: {body : {
   const school = req.body.school
   const grade = req.body.grade
   const option = req.body.option
-
   const sqlRegister = 'INSERT INTO `user` (`email`, `password`, `token`, `name`, `sex`, `school`, `grade`, `option`) VALUES (?, ?, "", ?, ?, ?, ?, ?)'
-  db.query(sqlRegister, [email, password, name, sex, school, grade, option], (err, result) => {
+
+  const queryRegister = (callback) => {
+    db.query(sqlRegister, [email, password, name, sex, school, grade, option], (err) => {
+      if (err) callback(err)
+      else callback(null)
+    })
+  }
+  queryRegister((err) => {
     if (err) return res.json({ registerSuccess: false, err })
     return res.status(200).json({
       registerSuccess: true
@@ -114,17 +120,19 @@ app.post('/api/user/register', (req: {body : {
 app.post('/api/user/overlapCheckEmail', (req, res) => {
   const email = req.body.email
   const sqlOverlapCheck = 'SELECT `email` FROM `user` WHERE `email` = ?'
-  db.query(sqlOverlapCheck, email, (err, result) => {
-    if (Object.keys(result).length === 0) {
-      if (err) return res.json({ overlapCheckEmail: false, err })
-      return res.status(200).json({
-        overlapCheckEmail: true
-      })
-    } else {
-      return res.status(200).json({
-        overlapCheckEmail: false
-      })
-    }
+
+  const queryOverlapCheck = (callback) => {
+    db.query(sqlOverlapCheck, email, (err, result) => {
+      if (err) callback(err, null)
+      else callback(Object.keys(result).length)
+    })
+  }
+  queryOverlapCheck((err, result) => {
+    if (err) return res.json({ overlapCheckEmail: false, err })
+    if (result !== 0) return res.status(200).json({ overlapCheckEmail: false })
+    return res.status(200).json({
+      overlapCheckEmail: true
+    })
   })
 })
 
