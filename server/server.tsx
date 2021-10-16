@@ -7,7 +7,7 @@ const sha256 = require('sha256')
 const jwt = require('jsonwebtoken')
 const path = require('path')
 
-const PORT = process.env.PORT || 4000 
+const PORT = process.env.PORT || 4000
 
 const auth = (req, res, next) => {
   const token = req.cookies.x_auth
@@ -29,7 +29,7 @@ require('dotenv').config({ path: path.resolve(__dirname, '../.env') })
 
 const salt = process.env.SALT
 const corsOptions = {
-  origin: '*',
+  origin: 'https://jsbin0526.github.io/',
   credentials: true,
   optionSuccessStatus: 200
 }

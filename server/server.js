@@ -27,7 +27,7 @@ var auth = function (req, res, next) {
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 var salt = process.env.SALT;
 var corsOptions = {
-    origin: '*',
+    origin: 'https://jsbin0526.github.io/',
     credentials: true,
     optionSuccessStatus: 200
 };
