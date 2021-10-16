@@ -1,6 +1,5 @@
 var express = require('express');
 var app = express();
-var PORT = 4000;
 var cors = require('cors');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -206,7 +205,4 @@ app.post('/api/article/view', function (req, res) {
             });
         });
     });
-});
-app.listen(PORT, function () {
-    console.log("Server On : http://localhost:" + PORT + "/");
 });

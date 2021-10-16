@@ -1,6 +1,5 @@
 const express = require('express')
 const app = express()
-const PORT = 4000
 const cors = require('cors')
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -215,8 +214,4 @@ app.post('/api/article/view', (req, res) => {
       })
     })
   })
-})
-
-app.listen(PORT, () => {
-  console.log(`Server On : http://localhost:${PORT}/`)
 })
