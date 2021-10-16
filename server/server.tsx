@@ -128,7 +128,7 @@ app.post('/api/user/overlapCheckEmail', (req, res) => {
     })
   }
   queryOverlapCheck((err, result) => {
-    console.log(result)
+    console.log(err + result)
     if (err) return res.json({ overlapCheckEmail: false, err })
     if (result !== 0) return res.status(200).json({ overlapCheckEmail: false })
     return res.status(200).json({
