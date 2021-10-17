@@ -95,7 +95,7 @@ app.post('/api/user/login', function (req, res) {
             queryInsertToken(function (err) {
                 if (err)
                     return res.json({ insertTokenSucces: false, err: err });
-                return res.cookie('x_auth', token, { domain: 'https://jsbin0526.github.io', path: '/gongjjang.com', httpOnly: true, secure: true }).status(200).json({ loginSuccess: true, email: email });
+                return res.cookie('x_auth', token, { httpOnly: true, secure: true, sameSite: 'None' }).status(200).json({ loginSuccess: true, token: token });
             });
         }
         else {
