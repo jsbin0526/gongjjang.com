@@ -17,7 +17,7 @@ const auth = (req, res, next) => {
     const queryTokenCheck = (callback) => {
       db.query(sqlTokenCheck, [decode !== undefined ? decode.email : 'null', token], (err, result) => {
         if (err) callback(err, null)
-        else callback(null, Object.keys(result))
+        else callback(null, result)
       })
     }
     const queryGetUserData = (callback) => {

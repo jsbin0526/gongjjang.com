@@ -17,7 +17,7 @@ var auth = function (req, res, next) {
                 if (err)
                     callback(err, null);
                 else
-                    callback(null, Object.keys(result));
+                    callback(null, result);
             });
         };
         var queryGetUserData = function (callback) {
