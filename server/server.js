@@ -12,13 +12,31 @@ var auth = function (req, res, next) {
     var sqlTokenCheck = 'SELECT `email` `token` FROM `user` WHERE `email` = ? AND `token` = ?';
     var sqlGetUserData = 'SELECT * FROM `user` WHERE `email` = ?';
     jwt.verify(token, '' + process.env.JWT_SECRET, function (_err, decode) {
-        db.query(sqlTokenCheck, [decode !== undefined ? decode.email : 'null', token], function (err, result) {
+        var queryTokenCheck = function (callback) {
+            db.query(sqlTokenCheck, [decode !== undefined ? decode.email : 'null', token], function (err, result) {
+                if (err)
+                    callback(err, null);
+                else
+                    callback(null, Object.keys(result).length);
+            });
+        };
+        var queryGetUserData = function (callback) {
+            db.query(sqlGetUserData, [decode !== undefined ? decode.email : 'null', token], function (err, result) {
+                if (err)
+                    callback(err, null);
+                else
+                    callback(null, JSON.parse(JSON.stringify(result[0])));
+            });
+        };
+        queryTokenCheck(function (err, result) {
             if (err)
                 throw err;
-            if (result.length === 0)
+            if (result === 0)
                 return res.json({ isAuth: false, error: true });
-            db.query(sqlGetUserData, decode !== undefined ? decode.email : 'null', function (err2, result2) {
-                req.user = JSON.parse(JSON.stringify(result2[0]));
+            queryGetUserData(function (err2, result2) {
+                if (err2)
+                    throw err;
+                req.user = result2;
                 next();
             });
         });

@@ -14,11 +14,24 @@ const auth = (req, res, next) => {
   const sqlTokenCheck = 'SELECT `email` `token` FROM `user` WHERE `email` = ? AND `token` = ?'
   const sqlGetUserData = 'SELECT * FROM `user` WHERE `email` = ?'
   jwt.verify(token, '' + process.env.JWT_SECRET, function (_err, decode) {
-    db.query(sqlTokenCheck, [decode !== undefined ? decode.email : 'null', token], (err, result) => {
+    const queryTokenCheck = (callback) => {
+      db.query(sqlTokenCheck, [decode !== undefined ? decode.email : 'null', token], (err, result) => {
+        if (err) callback(err, null)
+        else callback(null, Object.keys(result).length)
+      })
+    }
+    const queryGetUserData = (callback) => {
+      db.query(sqlGetUserData, [decode !== undefined ? decode.email : 'null', token], (err, result) => {
+        if (err) callback(err, null)
+        else callback(null, JSON.parse(JSON.stringify(result[0])))
+      })
+    }
+    queryTokenCheck((err, result) => {
       if (err) throw err
-      if (result.length === 0) return res.json({ isAuth: false, error: true })
-      db.query(sqlGetUserData, decode !== undefined ? decode.email : 'null', (err2, result2) => {
-        req.user = JSON.parse(JSON.stringify(result2[0]))
+      if (result === 0) return res.json({ isAuth: false, error: true })
+      queryGetUserData((err2, result2) => {
+        if (err2) throw err
+        req.user = result2
         next()
       })
     })

@@ -37,7 +37,11 @@ export async function overlapCheckEmail (dataToSubmit: { email: string }) {
 }
 
 export async function authUser () {
+<<<<<<< Updated upstream
   const request = axios.get('https://gongjjang.herokuapp.com/api/user/overlapCheckEmail').then((response) => response.data)
+=======
+  const request = axios.get('https://gongjjang.herokuapp.com/api/user/auth', { withCredentials: true }).then((response) => response.data)
+>>>>>>> Stashed changes
   return {
     type: AUTH_USER,
     payload: request
