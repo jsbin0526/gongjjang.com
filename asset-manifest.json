@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/gongjjang.com/static/css/main.1f9cc27e.chunk.css",
-    "main.js": "/gongjjang.com/static/js/main.57d47949.chunk.js",
-    "main.js.map": "/gongjjang.com/static/js/main.57d47949.chunk.js.map",
+    "main.js": "/gongjjang.com/static/js/main.04096fae.chunk.js",
+    "main.js.map": "/gongjjang.com/static/js/main.04096fae.chunk.js.map",
     "runtime-main.js": "/gongjjang.com/static/js/runtime-main.0f9a5ad4.js",
     "runtime-main.js.map": "/gongjjang.com/static/js/runtime-main.0f9a5ad4.js.map",
     "static/js/2.cf230c2a.chunk.js": "/gongjjang.com/static/js/2.cf230c2a.chunk.js",
@@ -17,6 +17,6 @@
     "static/js/runtime-main.0f9a5ad4.js",
     "static/js/2.cf230c2a.chunk.js",
     "static/css/main.1f9cc27e.chunk.css",
-    "static/js/main.57d47949.chunk.js"
+    "static/js/main.04096fae.chunk.js"
   ]
 }
