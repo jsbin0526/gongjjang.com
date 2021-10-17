@@ -17,7 +17,7 @@ var auth = function (req, res, next) {
                 if (err)
                     callback(err, null);
                 else
-                    callback(null, Object.keys(result).length);
+                    callback(null, Object.keys(result));
             });
         };
         var queryGetUserData = function (callback) {
@@ -31,7 +31,8 @@ var auth = function (req, res, next) {
         queryTokenCheck(function (err, result) {
             if (err)
                 throw err;
-            if (result === 0)
+            console.log(result);
+            if (result.length === 0)
                 return res.json({ isAuth: false, error: true });
             queryGetUserData(function (err2, result2) {
                 if (err2)
