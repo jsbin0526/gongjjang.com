@@ -37,7 +37,7 @@ export async function overlapCheckEmail (dataToSubmit: { email: string }) {
 }
 
 export async function authUser () {
-  const request = axios.get(`${process.env.REACT_APP_URL}/api/user/auth`).then((response) => response.data)
+  const request = axios.get('https://gongjjang.herokuapp.com/api/user/overlapCheckEmail').then((response) => response.data)
   return {
     type: AUTH_USER,
     payload: request
