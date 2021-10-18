@@ -29,6 +29,7 @@ var auth = function (req, res, next) {
             });
         };
         queryTokenCheck(function (err, result) {
+            console.log(err)
             if (err)
                 throw err;
             console.log(result);
