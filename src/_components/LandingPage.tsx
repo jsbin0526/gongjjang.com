@@ -22,7 +22,8 @@ function LandingPage (props: any) {
   const handleLogout = () => {
     dispatch(logoutUser()).then(async (response) => {
       if ((await response.payload).logoutSuccess) {
-        props.history.push('/')
+        handleHomePage(EmptyPage)
+        props.history.push('')
       } else {
         alert('로그아웃 하는데 실패했습니다')
       }

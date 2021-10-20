@@ -21,7 +21,7 @@ export async function registerUser (dataToSubmit: {
     grade: string;
     option: string;
 }) {
-  const request = axios.post(`${process.env.REACT_APP_URL}/api/user/register`, dataToSubmit).then((response) => response.data)
+  const request = axios.post(`${process.env.REACT_APP_URL}/api/user/register`, dataToSubmit, { withCredentials: true }).then((response) => response.data)
   return {
     type: REGISTER_USER,
     payload: request
@@ -37,11 +37,7 @@ export async function overlapCheckEmail (dataToSubmit: { email: string }) {
 }
 
 export async function authUser () {
-<<<<<<< Updated upstream
-  const request = axios.get('https://gongjjang.herokuapp.com/api/user/overlapCheckEmail').then((response) => response.data)
-=======
   const request = axios.get('https://gongjjang.herokuapp.com/api/user/auth', { withCredentials: true }).then((response) => response.data)
->>>>>>> Stashed changes
   return {
     type: AUTH_USER,
     payload: request
@@ -49,7 +45,7 @@ export async function authUser () {
 }
 
 export async function logoutUser () {
-  const request = axios.get(`${process.env.REACT_APP_URL}/api/user/logout`).then((response) => response.data)
+  const request = axios.get('https://gongjjang.herokuapp.com/api/user/logout', { withCredentials: true }).then((response) => response.data)
   return {
     type: LOGOUT_USER,
     payload: request
@@ -60,7 +56,7 @@ export async function passwordChange (dataToSubmit: {
   email: string,
   password: string
 }) {
-  const request = axios.post(`${process.env.REACT_APP_URL}/api/user/passwordChange`, dataToSubmit).then((response) => response.data)
+  const request = axios.post('https://gongjjang.herokuapp.com/api/user/passwordChange', dataToSubmit).then((response) => response.data)
   return {
     type: PASSWORD_CHANGE,
     payload: request
