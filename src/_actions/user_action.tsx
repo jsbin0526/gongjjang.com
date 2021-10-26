@@ -56,7 +56,7 @@ export async function passwordChange (dataToSubmit: {
   email: string,
   password: string
 }) {
-  const request = axios.post('https://gongjjang.herokuapp.com/api/user/passwordChange', dataToSubmit).then((response) => response.data)
+  const request = axios.post('https://gongjjang.herokuapp.com/api/user/passwordChange', dataToSubmit, { withCredentials: true }).then((response) => response.data)
   return {
     type: PASSWORD_CHANGE,
     payload: request
